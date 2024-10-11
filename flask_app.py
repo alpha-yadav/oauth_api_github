@@ -7,7 +7,6 @@ from flask_session import Session
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-"./flask_session"
 CLIENT_ID = 'Ov23libtLqd2jwQ8ZlWM'
 CLIENT_SECRET = '73bce66367b378681503b46f19532470c9267049'
 REDIRECT_URI = '/callback'
