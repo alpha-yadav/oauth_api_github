@@ -1,6 +1,7 @@
 # A very simple Flask Hello World app for you to get started with...
 from flask import Flask, request,session,render_template,redirect
 import requests
+import time,json 
 from flask_session import Session
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = True
@@ -44,7 +45,8 @@ def callback():
 @app.route('/payload', methods=['POST'])
 def payload():
     payload_data = request.json
-    # Process the pull request data and review it using an AI model
+    with open("pull request.log","a") as wr:
+        wr.write(time.ctime+":::"+json.dumps(payload_data)+"\n")
     state=str(review_pr(payload_data))
     return state, 200
 def create_webhook():
