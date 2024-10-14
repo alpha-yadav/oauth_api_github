@@ -1,15 +1,13 @@
-
 # A very simple Flask Hello World app for you to get started with...
-
 from flask import Flask, request,session,render_template,redirect
 import requests
 from flask_session import Session
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
-CLIENT_ID = 'Ov23libtLqd2jwQ8ZlWM'
-CLIENT_SECRET = '73bce66367b378681503b46f19532470c9267049'
-REDIRECT_URI = 'https://adix.pythonanywhere.com/callback'
+CLIENT_ID = "Client id get from your github site/app" # Like this 'ORf3lLbtLqd2nwA8ZmWl'
+CLIENT_SECRET = "" #same as client id place like'7fbcfe666e7b378e81503be6f19432470c9267049'
+REDIRECT_URI = "" # after login this webpage show like 'https://www.pythonconfig.com/callback'
 Session(app)
 @app.route('/')
 def home():
@@ -57,25 +55,25 @@ def create_webhook():
         'active': True,
         'events': ['pull_request'],
         'config': {
-            'url': 'https://adix.pythonanywhere.com/payload',
+            'url': 'https://www.pythonconfig.com/payload',
             'content_type': 'json'
         }
     }
-    response = requests.post('https://api.github.com/repos/alpha-yadav/oauth_api_github/hooks', headers=headers, json=data)
+    response = requests.post('https://api.github.com/repos/user_id/rep0/hooks', headers=headers, json=data)
     if response.status_code == 201:
         return('Webhook created successfully')
     else:
         return('Failed to create webhook')
 def review_pr(pr_data):
-    pr_url = pr_data["repository"]["hooks_url"]
     with open("token.txt","r") as rd:
         access_token = rd.read()
         #session['access_token']
     review_comment = "This is an automatic review comment."
-    issue_number=1
+    issue_number = pr_data['pull_request']['number']
     # Post the review comment
     headers = {'Authorization': f'token {access_token}'}
-    comment_url = f'{pr_url}/issues/{issue_number}/comments'
+    comment_url = f'https://api.github.com/repos/user_id/repo/issues/{issue_number}/comments'
+    #comment_url = f'{pr_url}/issues/{issue_number}/comments'
     comment_data = {'body': review_comment}
     response = requests.post(comment_url, headers=headers, json=comment_data)
     return response.content
